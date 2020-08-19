@@ -13,13 +13,25 @@ app.get('/',function(req, res, next){
 http.listen(PORT, '0.0.0.0', function(){
     console.log("Listening on port "+ PORT);
 });
-
+//store all the things drawn previously
+var line_history = [];
 
 // what to do when a client connects
 io.on('connection', function(client){
-    console.log("Client Connected");
+    // what to do when a client loads the page 
     client.on('join', function(data){
         console.log(data);
+        // send the client the previously drawn lines
+	for (var i in line_history){
+	    client.emit('draw_line', {line: line_history[i]});
+	}
     });
-
+    client.on('draw_line', function(data){
+	line_history.push(data.line);
+	io.emit('draw_line', {line: data.line});
+    });
+    // when a client disconnects
+    client.on('disconnect',function(){
+	console.log("Client Disconnected");
+    });
 });
