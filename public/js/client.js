@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
         click: false,
         move: false,
         pos: {x:0, y:0},
-        pos_prev: false
+        pos_prev: {x:0, y:0}
     };
     // get the canvas element
     var canvas = document.getElementById('can');
