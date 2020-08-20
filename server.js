@@ -21,11 +21,11 @@ io.on('connection', function(client){
     // what to do when a client loads the page 
     client.on('join', function(data){
         console.log(data);
-        // send the client the previously drawn lines
-	for (var i in line_history){
-	    client.emit('draw_line', {line: line_history[i]});
-	}
     });
+    // send the client the previously drawn lines
+    for (var i in line_history){
+        client.emit('draw_line', {line: line_history[i]});
+    }
     client.on('draw_line', function(data){
 	line_history.push(data.line);
 	io.emit('draw_line', {line: data.line});
